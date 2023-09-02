@@ -1,56 +1,47 @@
-console.log(searchField, submitButton);
-
-const searchEmoji = () => {
-
-if(searchField.value !== ""){
-submitButton.style.display = "flex"
-}else{
-submitButton.style.display = "none"
-
-}
-console.log(submitButton)
-
-
-  console.log("function called");
-  const searchFieldValue = searchField.value;
-
-  console.log(emojiList);
-  const filteredList = emojiList.filter((e) => {
-    if (e.aliases.some((ele) => ele.startsWith(searchFieldValue))) {
-      return true;
-    }
-    if (e.tags.some((ele) => ele.startsWith(searchFieldValue))) {
-      return true;
-    }
-  });
-  const searchResultContainer = document.getElementById(
-    "searchResultContainer"
-  );
-  searchResultContainer.innerText = "";
-  filteredList.map((ele) => {
-    console.log(ele);
-
-    const emoji = document.createElement("h1");
-    const description = document.createElement("p");
-    const category = document.createElement("h3");
-
-    emoji.innerText = ele.emoji;
-    description.innerText = ele.description;
-    category.innerText = ele.category;
-
-    searchResultContainer.appendChild(emoji);
-    searchResultContainer.appendChild(category);
-    searchResultContainer.appendChild(description);
-  });
-};
-
-
-if(searchField.value == ""){
-
-	submitButton.style.display = "none"
-}
-
-submitButton.addEventListener("click", searchEmoji);
-searchField.addEventListener("keyup", searchEmoji);
-
-window.onload = () => searchEmoji()
+const searchEmoji = e=>{
+    e.preventDefault();
+    const value = document.getElementById("serach_field").value;
+    displaySearchResults(value);
+    return false;
+  }
+  const autoSearch = e=>{
+    const value = e.target.value;
+    displaySearchResults(value);
+  }
+  
+  const displaySearchResults = (searchQuery = "") =>{
+    const filtered = emojiList.filter(e=>{
+        if(e.description.indexOf(searchQuery) != -1){
+            return true;
+        }
+        if(e.aliases.some(elem=>elem.startsWith(searchQuery))){
+            return true;
+        }
+        if(e.tags.some(elem=>elem.startsWith(searchQuery))){
+            return true;
+        }
+    });
+  
+    const parent = document.getElementById("search_result_container");
+    parent.innerHTML = "";
+    filtered.forEach(e=>{
+        const new_row = document.createElement('tr');
+        const new_emoji = document.createElement('td');
+        const new_aliases = document.createElement('td');
+        const new_desc = document.createElement('td');
+        new_emoji.innerText = e.emoji;
+        new_aliases.innerText = e.aliases.join(", ");
+        new_desc.innerText = e.description;
+        new_aliases.innerText = new_aliases.innerText.replaceAll('_', " ");
+        new_emoji.classList.add("emoji");
+        new_aliases.classList.add("aliases");
+        new_desc.classList.add("desc");
+        new_row.appendChild(new_emoji);
+        new_row.appendChild(new_aliases);
+        new_row.appendChild(new_desc);
+        parent.appendChild(new_row);
+    })
+  }
+  document.getElementById("search_form").addEventListener('submit',searchEmoji);
+  document.getElementById("search_field").addEventListener("keyup", autoSearch)
+  window.onload = ()=> displaySearchResults();

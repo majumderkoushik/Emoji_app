@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="main">
-      <h1>Emoji App</h1>
-      <br />
-      <br />
-      <div>
-        <input value="" type="search" name="" id="searchBar" />
-
-        <button id="submitButton">Search</button>
-      </div>
-      <div id="searchResultContainer"></div>
+</head>
+<body>
+    <div class="container mt-3">
+        <h1>Emoji-Application</h1>
+        <br>
+        <hr>
+        <form action="" id="search_form">
+            <input type="text" id="search_field" autocomplete="off" placeholder="Emojee Search">
+            <input type="submit" value="Search">
+        </form>
+        <br>
+        <br>
+        <table>
+            <tbody id="search_result_container"></tbody>
+        </table>
     </div>
-    <script src="./script.js"></script>
+
     <script src="./emojiList.js"></script>
-  </body>
+    <script src="./script.js"></script>
+</body>
 </html>
